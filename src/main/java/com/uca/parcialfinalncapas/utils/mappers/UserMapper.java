@@ -3,14 +3,14 @@ package com.uca.parcialfinalncapas.utils.mappers;
 import com.uca.parcialfinalncapas.dto.request.UserCreateRequest;
 import com.uca.parcialfinalncapas.dto.request.UserUpdateRequest;
 import com.uca.parcialfinalncapas.dto.response.UserResponse;
-import com.uca.parcialfinalncapas.entities.User;
+import com.uca.parcialfinalncapas.entities.UserE;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserMapper {
 
-    public static User toEntityCreate(UserCreateRequest userRequest) {
-        return User.builder()
+    public static UserE toEntityCreate(UserCreateRequest userRequest) {
+        return UserE.builder()
                 .nombre(userRequest.getNombre())
                 .correo(userRequest.getCorreo())
                 .password(userRequest.getPassword())
@@ -18,8 +18,8 @@ public class UserMapper {
                 .build();
     }
 
-    public static User toEntityUpdate(UserUpdateRequest userUpdate) {
-        return User.builder()
+    public static UserE toEntityUpdate(UserUpdateRequest userUpdate) {
+        return UserE.builder()
                 .id(userUpdate.getId())
                 .nombre(userUpdate.getNombre())
                 .password(userUpdate.getPassword())
@@ -27,7 +27,7 @@ public class UserMapper {
                 .build();
     }
 
-    public static UserResponse toDTO(User user) {
+    public static UserResponse toDTO(UserE user) {
         return UserResponse.builder()
                 .idUsuario(user.getId())
                 .nombre(user.getNombre())
@@ -36,7 +36,7 @@ public class UserMapper {
                 .build();
     }
 
-    public static List<UserResponse> toDTOList(List<User> users) {
+    public static List<UserResponse> toDTOList(List<UserE> users) {
         return users.stream().map(UserMapper::toDTO).collect(Collectors.toList());
     }
 }
