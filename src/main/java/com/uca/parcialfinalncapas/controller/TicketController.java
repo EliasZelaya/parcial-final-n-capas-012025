@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 //prueba
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class TicketController {
     private TicketService ticketService;
 
+    @PreAuthorize("hasRole('TECH')")
     @GetMapping
     public ResponseEntity<GeneralResponse> getAllTickets() {
         return ResponseBuilderUtil.buildResponse("Tickets obtenidos correctamente",
@@ -28,6 +30,7 @@ public class TicketController {
                 ticketService.getAllTickets());
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<GeneralResponse> getTicketById(@PathVariable Long id) {
         TicketResponse ticket = ticketService.getTicketById(id);
@@ -37,12 +40,14 @@ public class TicketController {
         return ResponseBuilderUtil.buildResponse("Ticket found", HttpStatus.OK, ticket);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping
     public ResponseEntity<GeneralResponse> createTicket(@Valid @RequestBody TicketCreateRequest ticket) {
         TicketResponse createdTicket = ticketService.createTicket(ticket);
         return ResponseBuilderUtil.buildResponse("Ticket creado correctamente", HttpStatus.CREATED, createdTicket);
     }
 
+    @PreAuthorize("hasRole('TECH')")
     @PutMapping
     public ResponseEntity<GeneralResponse> updateTicket(@Valid @RequestBody TicketUpdateRequest ticket) {
         TicketResponse updatedTicket = ticketService.updateTicket(ticket);
